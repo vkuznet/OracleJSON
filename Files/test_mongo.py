@@ -29,10 +29,10 @@ for doc in coll.find(spec):
     print(doc)
 
 # Assingment
-# 1. dowloand mongodb - DONE
+# 1. download mongodb - DONE
 # 2. load document to DB - DONE
-# 3. run client and create 10 documents
-# 4. load 10 docs in DB
+# 3. run client and create 10 documents - DONE 
+# 4. load 10 docs in DB - DONE
 # 5. query DB
-# 6. study MognoDB QL
+# 6. study MongoDB QL
 

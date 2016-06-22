@@ -29,8 +29,8 @@ for doc in coll.find(spec):
     print(doc)
 
 # Assingment
-# 1. dowloand mongodb
-# 2. load document to DB
+# 1. dowloand mongodb - DONE
+# 2. load document to DB - DONE
 # 3. run client and create 10 documents
 # 4. load 10 docs in DB
 # 5. query DB

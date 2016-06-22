@@ -1,0 +1,161 @@
+{
+    "skippedFiles": [
+        1
+    ],
+    "fallbackFiles": [
+        0
+    ],
+    "meta_data": {
+        "jobstate": "success",
+        "ts": 1456500229,
+        "fwjr_id": "1-0",
+        "host": "test.fnal.gov",
+        "agent_ver": "1.0.14.pre5",
+        "jobtype": "Processing"
+    },
+    "LFNArrayRef": [
+        "fallbackFiles",
+        "outputLFNs",
+        "lfn",
+        "skippedFiles",
+        "inputLFNs"
+    ],
+    "PFNArrayRef": [
+        "inputPFNs",
+        "outputPFNs",
+        "pfn"
+    ],
+    "task": "/workflow_name/RECOCOSD",
+    "wmaid": "",
+    "wmats": 0.0,
+    "LFNArray": [
+        "/store/test/blah.root",
+        "/store/unmerged/blah.root",
+        "/lfn/fallbackfile.root",
+        "/lfn/skipedfile.root"
+    ],
+    "steps": [
+        {
+            "status": 0,
+            "performance": {
+                "multicore": {},
+                "storage": {
+                    "writeTotalMB": 357.624,
+                    "readPercentageOps": 1.00032780168,
+                    "readMaxMSec": 4832.84,
+                    "readAveragekB": 77.8474891246,
+                    "readTotalMB": 7423.792,
+                    "readTotalSecs": 0.0,
+                    "readNumOps": 97620.0,
+                    "readCachePercentageOps": 0.0,
+                    "readMBSec": 0.0438598972596,
+                    "writeTotalSecs": 575158.0
+                },
+                "cpu": {
+                    "TotalJobCPU": 0.39894,
+                    "MinEventCPU": 0.0,
+                    "TotalEventCPU": 0.0,
+                    "AvgEventCPU": -2.0,
+                    "MaxEventTime": 0.0,
+                    "TotalJobTime": 26.4577,
+                    "MinEventTime": 0.0,
+                    "AvgEventTime": -1.0,
+                    "MaxEventCPU": 0.0
+                },
+                "memory": {
+                    "PeakValueRss": 0.0,
+                    "PeakValueVsize": 0.0
+                }
+            },
+            "errors": [
+                {
+                    "type": "Fatal Exception",
+                    "details": "Failed badly.",
+                    "exitCode": 8001
+                }
+            ],
+            "name": "cmsRun1",
+            "output": [
+                {
+                    "inputDataset": "/Cosmics/Run2011A-v1/RAW",
+                    "adler32": "e503b8b9",
+                    "ouput_module_class": "PoolOutputModule",
+                    "globalTag": "GR_R_62_V3::All",
+                    "branch_hash": "c1e135af4ac2eb2b803bb6487be2c80f",
+                    "SEName": "srm-cms.cern.ch",
+                    "catalog": "",
+                    "module_label": "ALCARECOStreamDtCalib",
+                    "cksum": "2641269665",
+                    "acquisitionEra": "CMSSW_7_0_0_pre11",
+                    "GUID": "",
+                    "StageOutCommand": "srmv2-lcg",
+                    "size": 647376,
+                    "applicationName": "cmsRun",
+                    "runs": [
+                        {
+                            "runNumber": 160960,
+                            "lumis": [
+                                164,
+                                165
+                            ]
+                        }
+                    ],
+                    "guid": "ECCFE421-08CB-E511-9F4C-02163E017804",
+                    "applicationVersion": "CMSSW_7_0_0_pre11",
+                    "outputLFNs": [
+                        1
+                    ],
+                    "inputPFNs": [
+                        0
+                    ],
+                    "configURL": "https://couch.config.ch5f4811e9ccd63d563cd62572350f0db8",
+                    "outputPFNs": [
+                        1
+                    ],
+                    "processingVer": 1,
+                    "processingStr": "RECOCOSD_TaskChain_Data_pile_up_test",
+                    "outputDataset": "/test/proc/ALCARECO",
+                    "location": "",
+                    "inputLFNs": [
+                        0
+                    ],
+                    "PNN": "T2_CERN_CH",
+                    "async_dest": "",
+                    "prep_id": "",
+                    "events": 0,
+                    "merged": false,
+                    "validStatus": "PRODUCTION"
+                }
+            ],
+            "input": [
+                {
+                    "catalog": "",
+                    "input_source_class": "PoolSource",
+                    "lfn": 0,
+                    "runs": [
+                        {
+                            "runNumber": 160960,
+                            "lumis": [
+                                164,
+                                165
+                            ]
+                        }
+                    ],
+                    "module_label": "source",
+                    "input_type": "primaryFiles",
+                    "guid": "E8099605-8853-E011-A848-0030487A18F2",
+                    "events": 6893,
+                    "pfn": 0
+                }
+            ],
+            "stop": 1454569736,
+            "site": "T2_CH_CERN",
+            "start": 1454569735
+        }
+    ],
+    "PFNArray": [
+        "root://test.ch/blah.root",
+        "root://test.ch/blah2.root"
+    ],
+    "stype": ""
+}

@@ -1,6 +1,6 @@
 ### When 1M Records were inserted in batches of 200k each into MongoDB
 
-##### File Name : fwjr_prod.json, File Size : 5kB
+##### 1. File Name : fwjr_prod.json, File Size : 5kB
 
 | Record Count  | Time to Write to DB | Reading without Indexing "wmaid" | Reading with Indexing "wmaid"
 | ------------- |:-------------:| -----:| -------: |
@@ -16,7 +16,7 @@
 
 ------------------------
 
-##### File Name : main_doc.json, File Size : 12kB
+##### 2. File Name : main_doc.json, File Size : 12kB
 
 | Record Count  | Time to Write to DB | Reading without Indexing "wmaid" | Reading with Indexing "wmaid"
 | ------------- |:-------------:| -----:| -------: |

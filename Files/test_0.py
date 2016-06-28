@@ -1,3 +1,27 @@
+'''
+
+MongoDB
+    - Change doc to main_doc.json
+    - Add indexes to some fields and place queries and note down their times
+        - find records based on provided LFN Pattern
+        - find records for provided run Number
+        - find records for provided site
+        - get sum, mean, max CPU/RAM for given site
+    - Measure CPU/RAM usage for insert, look up (psutil python)
+    - Do tests for indexed and non indexed keys
+    - Make Plots for all metrics
+
+Oracle
+    - Explore how to insert given docs into OracleDB
+    - Which all tools need to be used / language / API
+    - How to construct schema for JSON Data
+    - How to Index attributes
+    - Perform benchmarks for Oracle
+
+Compare Oracle and MongoDB
+
+'''
+       
 #!/usr/bin/env Python
 import json, random, string, pymongo
 from pymongo import MongoClient
@@ -13,11 +37,12 @@ def init():
     for i in range(5):
         bulkInsert(db, doc, i)
     
-    createIndex(db)
-    query(db)
+    # createIndex(db)
+    # query(db)
 
     # loadOne(db, doc)
     # deleteCollection(db)
+    
     # loadMultipleFiles(db, doc)
 
 def bulkInsert(db, doc, index):
@@ -55,6 +80,8 @@ def bulkInsert(db, doc, index):
     difference = end_time - begin_time
     print str(begin_time) + " " + str(end_time) + "\n"
     print difference
+
+    print result
     
 def createIndex(db):
     print db.production.create_index([("wmaid", pymongo.ASCENDING)])
@@ -69,9 +96,10 @@ def loadOne(db, doc):
     print cursor
 
 def loadMultipleFiles(db, doc):
-    for idx in range():
+    begin_time = datetime.now()
+    for idx in range(1000000):
         newdoc = dict(doc)
-        del newdoc["_id"]
+        # del newdoc["_id"]
 
         newdoc["wmaid"] = idx
         newdoc["steps"][0]["performance"]["storage"]["writeTotalMB"] = round(random.uniform(200, 400), 2)
@@ -91,6 +119,12 @@ def loadMultipleFiles(db, doc):
             newdoc["PFNArray"][i] = "root://test.ch/Run"+str(idx)+"/file"+str(i)+".root"
 
         db.production.insert(newdoc)
+
+    end_time = datetime.now()
+    difference = end_time - begin_time
+    print str(begin_time) + " " + str(end_time) + "\n"
+    print difference
+    
     print("Number of docs", db.production.count())
 
 def deleteCollection(db):

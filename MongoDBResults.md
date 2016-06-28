@@ -8,5 +8,7 @@
 | 800k      | 47s 566ms | inputstage : COLLSCAN | inputstage : IXSCAN |
 | 1M        | 47s 583ms | . | . |
 
-#### Total Time : 248s 421ms
+#### Total Time : 248s 421ms = 4m 8s 421ms
 #### Average File Size : 5kB
+
+### Time taken for individual inserts = 10m 54s 871ms

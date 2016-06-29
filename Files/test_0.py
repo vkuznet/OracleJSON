@@ -1,7 +1,5 @@
 '''
-
 MongoDB
-    - Change doc to main_doc.json
     - Add indexes to some fields and place queries and note down their times
         - find records based on provided LFN Pattern
         - find records for provided run Number
@@ -9,7 +7,7 @@ MongoDB
         - get sum, mean, max CPU/RAM for given site
     - Measure CPU/RAM usage for insert, look up (psutil python)
     - Do tests for indexed and non indexed keys
-    - Make Plots for all metrics
+    - Make Plots for all metrics (matplotlib)
 
 Oracle
     - Explore how to insert given docs into OracleDB
@@ -34,16 +32,42 @@ def init():
     doc = loadJSON()
 
     # 1,000,000 documents / 5 = 200,000 documents
-    for i in range(5):
-        bulkInsert(db, doc, i)
+    # for i in range(5):
+    #     bulkInsert(db, doc, i)
     
     # createIndex(db)
     # query(db)
 
-    # loadOne(db, doc)
+    # loadOne(db, doc)    
+    loadMultipleFiles(db, doc)
+
     # deleteCollection(db)
+
+def randomizeDoc(doc, idx):
+    newdoc = dict(doc)
+
+    rand1 = "".join([random.choice(string.digits) for n in xrange(5)])
+    rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+    rand3 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
     
-    # loadMultipleFiles(db, doc)
+    newdoc["wmaid"] = rand3
+
+    for i in range(len(newdoc["steps"])):
+        newdoc["steps"][i]["performance"]["storage"]["writeTotalMB"] = round(random.uniform(200, 400), 2)
+        newdoc["steps"][i]["performance"]["storage"]["readPercentageOps"] = random.uniform(1, 2)
+        newdoc["steps"][i]["performance"]["storage"]["readMBSec"] = random.random()
+
+        for j in range(len(newdoc["steps"][i]["output"])):    
+            newdoc["steps"][i]["output"][j]["inputDataset"] = "/Cosmics/Run-" + rand1
+            newdoc["steps"][i]["output"][j]["branch_hash"] = rand2
+
+    for i in range(len(newdoc["LFNArray"])):
+        newdoc["LFNArray"][i] = "/store/mc/Run"+str(idx)+"/file"+str(i)+".root"
+
+    for i in range(len(newdoc["PFNArray"])):
+        newdoc["PFNArray"][i] = "root://test.ch/Run"+str(idx)+"/file"+str(i)+".root"
+
+    return newdoc
 
 def bulkInsert(db, doc, index):
     bulk = db.production.initialize_ordered_bulk_op()
@@ -52,42 +76,22 @@ def bulkInsert(db, doc, index):
     begin_time = datetime.now()
 
     for idx in range(x):
-        newdoc = dict(doc)
-        # del newdoc["_id"]
-
-        newdoc["wmaid"] = x*index + idx
-        newdoc["steps"][0]["performance"]["storage"]["writeTotalMB"] = round(random.uniform(200, 400), 2)
-        newdoc["steps"][0]["performance"]["storage"]["readPercentageOps"] = random.uniform(1, 2)
-        newdoc["steps"][0]["performance"]["storage"]["readMBSec"] = random.random()
-
-        rand1 = "".join([random.choice(string.digits) for n in xrange(10)])
-        rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-
-        newdoc["steps"][0]["output"][0]["inputDataset"] = "/Cosmics/Run-" + rand1
-        newdoc["steps"][0]["output"][0]["branch_hash"] = rand2
-
-        for i in range(len(newdoc["LFNArray"])):
-            newdoc["LFNArray"][i] = "/store/mc/Run"+str(idx)+"/file"+str(i)+".root"
-
-        for i in range(len(newdoc["PFNArray"])):
-            newdoc["PFNArray"][i] = "root://test.ch/Run"+str(idx)+"/file"+str(i)+".root"
-
+        newdoc = randomizeDoc(doc, idx)
         bulk.insert(newdoc)
 
     result = bulk.execute()
+
     end_time = datetime.now()
-
     difference = end_time - begin_time
-    print str(begin_time) + " " + str(end_time) + "\n"
-    print difference
-
+    
+    print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
     print result
     
 def createIndex(db):
     print db.production.create_index([("wmaid", pymongo.ASCENDING)])
 
 def loadJSON():
-    with open('fwjr_prod.json') as data_file:
+    with open('main_doc.json') as data_file:
         doc = json.load(data_file)
     return doc
 
@@ -97,34 +101,15 @@ def loadOne(db, doc):
 
 def loadMultipleFiles(db, doc):
     begin_time = datetime.now()
+
     for idx in range(1000000):
-        newdoc = dict(doc)
-        # del newdoc["_id"]
-
-        newdoc["wmaid"] = idx
-        newdoc["steps"][0]["performance"]["storage"]["writeTotalMB"] = round(random.uniform(200, 400), 2)
-        newdoc["steps"][0]["performance"]["storage"]["readPercentageOps"] = random.uniform(1, 2)
-        newdoc["steps"][0]["performance"]["storage"]["readMBSec"] = random.random()
-
-        rand1 = "".join([random.choice(string.digits) for n in xrange(5)])
-        rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-
-        newdoc["steps"][0]["output"][0]["inputDataset"] = "/Cosmics/Run-" + rand1
-        newdoc["steps"][0]["output"][0]["branch_hash"] = rand2
-
-        for i in range(len(newdoc["LFNArray"])):
-            newdoc["LFNArray"][i] = "/store/mc/Run"+str(idx)+"/file"+str(i)+".root"
-
-        for i in range(len(newdoc["PFNArray"])):
-            newdoc["PFNArray"][i] = "root://test.ch/Run"+str(idx)+"/file"+str(i)+".root"
-
+        newdoc = randomizeDoc(doc, idx)
         db.production.insert(newdoc)
 
     end_time = datetime.now()
     difference = end_time - begin_time
-    print str(begin_time) + " " + str(end_time) + "\n"
-    print difference
     
+    print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
     print("Number of docs", db.production.count())
 
 def deleteCollection(db):
@@ -136,20 +121,21 @@ def query(db):
     pprint(indexes)
 
     cursor = db.production.find({"wmaid":500}).explain()
-    # cursor = db.production.find({'PFNArray':{'$regex':r'^root://test.ch/R'}}) # All regex that starts with root:// ....
-    # cursor = db.production.find({'LFNArray':{'$regex':r'^/store/mc/Run'}}) # All regex that starts with /store/mc/Run ....
-    # cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
+    cursor = db.production.find({'PFNArray':{'$regex':r'^root://test.ch/R'}}) # All regex that starts with root:// ....
+    cursor = db.production.find({'LFNArray':{'$regex':r'^/store/mc/Run'}}) # All regex that starts with /store/mc/Run ....
+    cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
 
-    # cursor = db.production.find({"$or":[
-    #                                     {"wmaid": {"$gte":2}},
-    #                                     {"steps.output.outputLFNs": 3}
-    #                                 ]
-    #                             })
+    cursor = db.production.find({"$or":[
+                                        {"wmaid": {"$gte":2}},
+                                        {"steps.output.outputLFNs": 3}
+                                    ]
+                                })
     
-    # cursor = db.production.find({"$or":[{"PFNArray":"/Run0/Test0/"},{"LFNArray":"/Run1/Test1/"}]})
+    cursor = db.production.find({"$or":[{"PFNArray":"/Run0/Test0/"},{"LFNArray":"/Run1/Test1/"}]})
 
-    # for document in cursor:
-    #     print document
+    for document in cursor:
+        print document
+
     pprint(cursor)
 
 if __name__ == "__main__":

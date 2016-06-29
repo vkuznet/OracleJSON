@@ -1,6 +1,16 @@
+Week 1
+
 1. dowloand mongodb
 2. load document to DB
 3. run client and create 10 documents
 4. load 10 docs in DB
 5. query DB
 6. study MognoDB QL
+
+Week 2
+
+1. Weekly Report 
+2. Bulk Write for 1M Documents and timings noted
+3. Single Test Performed on Read Query
+4. Individual Insert Times also noted down for 2 different documents
+5. 

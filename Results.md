@@ -10,14 +10,13 @@
 | 800k         | 2m 14s 204ms        |
 | 1M           | 3m 2s 987ms         |
 
+##### Total Time : 11m 57s 151ms
+##### Time taken for individual inserts = 17m 56s 501ms
+
 | Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Total Keys Examined | Input Stage
 | -----  |:-------------:| ------------------------:| -------------------------: | ------------------: | --------------: |
 | db.production.find({"wmaid":""}).explain() | N | 624 | 1000001 | 0 | COLLSCAN |
 | db.production.find({"wmaid":""}).explain() | Y | 9 | 1 | 1 | IXSCAN |
-
-
-##### Total Time : 11m 57s 151ms
-##### Time taken for individual inserts = 17m 56s 501ms
 
 ------------------------
 

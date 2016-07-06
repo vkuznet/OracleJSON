@@ -4,20 +4,20 @@
 
 | Record Count | Time to Write to DB
 | -----------  |:-------------------:|
-| 200k         | 48s 321ms           | 
-| 400k         | 51s 916ms           | 
-| 600k         | 53s 35ms            |
-| 800k         | 47s 566ms           |
-| 1M           | 47s 583ms           |
+| 200k         | 2m 18s 889ms        | 
+| 400k         | 2m 13s 664ms        | 
+| 600k         | 2m 9s 407ms         |
+| 800k         | 2m 14s 204ms        |
+| 1M           | 3m 2s 987ms         |
 
-| Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Input Stage
-| -----  |:-------------:| ------------------------:| -------------------------: | ------------------: |
-| db.production.find({"wmaid":500}).explain()  | N | 2927 | 1000000 | COLLSCAN |
-| db.production.find({"wmaid":500}).explain() | Y | 11 | 1 | IXSCAN |
+| Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Total Keys Examined | Input Stage
+| -----  |:-------------:| ------------------------:| -------------------------: | ------------------: | --------------: |
+| db.production.find({"wmaid":""}).explain() | N | 624 | 1000001 | 0 | COLLSCAN |
+| db.production.find({"wmaid":""}).explain() | Y | 9 | 1 | 1 | IXSCAN |
 
 
-##### Total Time : 4m 8s 421ms
-##### Time taken for individual inserts = 10m 54s 871ms
+##### Total Time : 11m 57s 151ms
+##### Time taken for individual inserts = 17m 56s 501ms
 
 ------------------------
 

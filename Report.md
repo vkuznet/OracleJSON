@@ -12,3 +12,8 @@
 * Performed Indexing on a few fields and noticed the difference in the time to run queries
 
 ## Week 2
+
+* Bulk Write for 1M Documents and timings noted
+* Single Test Performed on Read Query
+* Individual Insert Times also noted down for 2 different documents
+

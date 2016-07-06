@@ -17,11 +17,10 @@ Oracle
     - Perform benchmarks for Oracle
 
 Compare Oracle and MongoDB
-
 '''
        
 #!/usr/bin/env Python
-import json, random, string, pymongo
+import json, random, string, pymongo, copy
 from pymongo import MongoClient
 from pprint import pprint
 from datetime import datetime
@@ -31,25 +30,24 @@ def init():
     db = client.code
     doc = loadJSON()
 
+    # loadOne(db, doc)    
+    
     # 1,000,000 documents / 5 = 200,000 documents
     # for i in range(5):
     #     bulkInsert(db, doc, i)
     
     # createIndex(db)
-    # query(db)
+    query(db)
 
-    # loadOne(db, doc)    
-    loadMultipleFiles(db, doc)
+    # loadMultipleFiles(db, doc)
 
     # deleteCollection(db)
 
-def randomizeDoc(doc, idx):
-    newdoc = dict(doc)
-
-    rand1 = "".join([random.choice(string.digits) for n in xrange(5)])
-    rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+def randomizeDoc(doc, idx, index, x):
+    newdoc = copy.deepcopy(doc)
+    del newdoc['_id']
+            
     rand3 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-    
     newdoc["wmaid"] = rand3
 
     for i in range(len(newdoc["steps"])):
@@ -57,38 +55,41 @@ def randomizeDoc(doc, idx):
         newdoc["steps"][i]["performance"]["storage"]["readPercentageOps"] = random.uniform(1, 2)
         newdoc["steps"][i]["performance"]["storage"]["readMBSec"] = random.random()
 
-        for j in range(len(newdoc["steps"][i]["output"])):    
-            newdoc["steps"][i]["output"][j]["inputDataset"] = "/Cosmics/Run-" + rand1
-            newdoc["steps"][i]["output"][j]["branch_hash"] = rand2
+        length = len(newdoc["steps"][i]["output"])
+
+        if length > 0:
+            for j in range(length):    
+                rand1 = "".join([random.choice(string.digits) for n in xrange(5)])
+                rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+
+                newdoc["steps"][i]["output"][j]["outputDataset"] = "/Cosmics/Run-" + rand1
+                newdoc["steps"][i]["output"][j]["branch_hash"] = rand2 
 
     for i in range(len(newdoc["LFNArray"])):
-        newdoc["LFNArray"][i] = "/store/mc/Run"+str(idx)+"/file"+str(i)+".root"
+        newdoc["LFNArray"][i] = "/store/mc/Run"+str(x*index +idx)+"/file"+str(i)+".root"
 
     for i in range(len(newdoc["PFNArray"])):
-        newdoc["PFNArray"][i] = "root://test.ch/Run"+str(idx)+"/file"+str(i)+".root"
-
+        newdoc["PFNArray"][i] = "root://test.ch/Run"+str(x*index +idx)+"/file"+str(i)+".root"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     return newdoc
 
 def bulkInsert(db, doc, index):
     bulk = db.production.initialize_ordered_bulk_op()
     x = 200000
-
     begin_time = datetime.now()
-
+    
     for idx in range(x):
-        newdoc = randomizeDoc(doc, idx)
+        newdoc = randomizeDoc(doc, idx, index, x)
         bulk.insert(newdoc)
 
     result = bulk.execute()
 
     end_time = datetime.now()
     difference = end_time - begin_time
-    
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
-    print result
-    
+
 def createIndex(db):
-    print db.production.create_index([("wmaid", pymongo.ASCENDING)])
+    print db.production.create_index([("steps.performance.storage", pymongo.ASCENDING)])
 
 def loadJSON():
     with open('main_doc.json') as data_file:
@@ -117,24 +118,19 @@ def deleteCollection(db):
 
 def query(db):
     
-    indexes = db.production.index_information()
-    pprint(indexes)
-
-    cursor = db.production.find({"wmaid":500}).explain()
-    cursor = db.production.find({'PFNArray':{'$regex':r'^root://test.ch/R'}}) # All regex that starts with root:// ....
-    cursor = db.production.find({'LFNArray':{'$regex':r'^/store/mc/Run'}}) # All regex that starts with /store/mc/Run ....
-    cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
-
-    cursor = db.production.find({"$or":[
-                                        {"wmaid": {"$gte":2}},
-                                        {"steps.output.outputLFNs": 3}
-                                    ]
-                                })
+    # indexes = db.production.index_information()
+    # pprint(indexes)
+    # cursor = db.production.find({"wmaid":500}).explain()
+    # cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain() # All regex that starts with root:// ....
+    # cursor = db.production.find({"$or":[{"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, { "LFNArray": { "$regex" : "^/store/mc/Run121/"} }]}).explain() # All regex that starts with /store/mc/Run ....
+    # cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
+    # cursor = db.production.find({"$or":[{"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, { "LFNArray": { "$regex" : "^/store/mc/Run121/"} }]}).explain("executionStats")
     
-    cursor = db.production.find({"$or":[{"PFNArray":"/Run0/Test0/"},{"LFNArray":"/Run1/Test1/"}]})
+    cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain()
 
-    for document in cursor:
-        print document
+    # cursor = db.production.find({})
+    # for document in cursor:
+    #     print document
 
     pprint(cursor)
 

@@ -3,8 +3,8 @@ from pymongo import MongoClient
 
 import json
 
-uri = 'mongodb://localhost:8230'
-client = MongoClient(uri)
+# uri = 'mongodb://localhost:8230'
+client = MongoClient()
 doc = json.load(open('fwjr_prod.json'))
 
 coll = client['wma']['db']

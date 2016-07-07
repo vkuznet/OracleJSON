@@ -15,8 +15,8 @@
 
 | Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Total Keys Examined | Input Stage
 | -----  |:-------------:| ------------------------:| -------------------------: | ------------------: | --------------: |
-| db.production.find({"wmaid":""}).explain() | N | 624 | 1000001 | 0 | COLLSCAN |
-| db.production.find({"wmaid":""}).explain() | Y | 9 | 1 | 1 | IXSCAN |
+| db.production.find({"wmaid":""}).explain() | N | 13299 | 1000001 | 0 | COLLSCAN |
+| db.production.find({"wmaid":""}).explain() | Y | 8x | 1 | 1 | IXSCAN |
 
 ------------------------
 
@@ -24,19 +24,19 @@
 
 | Record Count | Time to Write to DB
 | -----------  |:-------------------:|
-| 200k         | 1m 18s 313ms        | 
-| 400k         | 1m 19s 957ms        | 
-| 600k         | 1m 23s 583ms        |
-| 800k         | 1m 17s 431ms        |
-| 1M           | 1m 15s 937ms        |
+| 200k         | 4m 3s 477ms        | 
+| 400k         | 4m 1s 736ms        | 
+| 600k         | 4m 32s 460ms        |
+| 800k         | 4m 27s 376ms        |
+| 1M           | 4m 28s 13ms        |
 
-| Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Input Stage
-| -----  |:-------------:| ------------------------:| -------------------------: | ------------------: |
-| db.production.find({"wmaid":500}).explain()  | N | 5730 | 1158003 | COLLSCAN |
-| db.production.find({"wmaid":500}).explain()  | Y | 2    | 1       | IXSCAN   |
+| Query  | Indexed (Y/N) | Execution Time (Millis)  | Total Docs Examined | Total Keys Examined | Input Stage
+| -----  |:-------------:| ------------------------:| -------------------------: | ---------------------: | ------------------: |
+| db.production.find({"wmaid":""}).explain()  | N | 17467 | 1000001 | 0 | COLLSCAN |
+| db.production.find({"wmaid":""}).explain()  | Y | 16 | 1 | 1 | IXSCAN   |
 
-##### Total Time : 6m 35s 221ms
-##### Time Taken for individual inserts = 12m 0s 014ms
+##### Total Time : 21m 33s 62ms
+##### Time Taken for individual inserts = 42m 56s 923ms
 
 ### Index Vs Non Index Queries
 

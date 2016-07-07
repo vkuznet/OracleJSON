@@ -9,7 +9,7 @@
   - [ ] Find Records for provided run number
   - [ ] Find Records for provided site
   - [ ] Get sum/mean/max CPU/RAM
-- [ ] Setup Oracle DB
+- [x] Setup Oracle DB
 - [ ] Inject 1 JSON
 - [ ] Inject multiple JSON's
 - [ ] What tools / language / API's to be used?

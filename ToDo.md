@@ -1,14 +1,25 @@
 ### Tasks To Do
 
-- [ ] Measure CPU/RAM Usage while inserting 1M docs
-  - [ ] Bulk Insert vs Single Insert
-  - [ ] while lookup
-  - [ ] with Indexed Keys and without Indexed Keys
-- [ ] MongoDB Queries for measuring time to
-  - [ ] Find Records based on provided LFN Pattern
-  - [ ] Find Records for provided run number
-  - [ ] Find Records for provided site
-  - [ ] Get sum/mean/max CPU/RAM
+- [ ] For Indexed Queries
+  - [ ] Measure CPU/RAM Usage while inserting 1M docs
+    - [ ] Bulk Insert vs Single Insert
+    - [ ] while lookup
+    - [ ] with Indexed Keys and without Indexed Keys
+  - [ ] MongoDB Queries for measuring time to
+    - [ ] Find Records based on provided LFN Pattern
+    - [ ] Find Records for provided run number
+    - [ ] Find Records for provided site
+    - [ ] Get sum/mean/max CPU/RAM
+- [ ] For Non Indexed Queries
+  - [ ] Measure CPU/RAM Usage while inserting 1M docs
+    - [ ] Bulk Insert vs Single Insert
+    - [ ] while lookup
+    - [ ] with Indexed Keys and without Indexed Keys
+  - [ ] MongoDB Queries for measuring time to
+    - [ ] Find Records based on provided LFN Pattern
+    - [ ] Find Records for provided run number
+    - [ ] Find Records for provided site
+    - [ ] Get sum/mean/max CPU/RAM
 - [x] Setup Oracle DB
 - [ ] Inject 1 JSON
 - [ ] Inject multiple JSON's

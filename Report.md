@@ -12,3 +12,13 @@
 * Performed Indexing on a few fields and noticed the difference in the time to run queries
 
 ## Week 2
+
+* Bulk Write for 1M Documents tested
+* Single Test Performed on Read Query
+* Tests conducted for
+..* 1M records inserted in batches of 200k for file size 5kB
+..* 1M records inserted in batches of 200k for file size 12kB
+..* Look Up time for a query when that field was 
+....* Indexed
+....* Not Indexed
+..* Indexed vs Non Indexed Queries Tested

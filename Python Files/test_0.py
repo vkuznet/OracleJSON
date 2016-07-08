@@ -1,26 +1,5 @@
-'''
-MongoDB
-    - Add indexes to some fields and place queries and note down their times
-        - find records based on provided LFN Pattern
-        - find records for provided run Number
-        - find records for provided site
-        - get sum, mean, max CPU/RAM for given site
-    - Measure CPU/RAM usage for insert, look up (psutil python)
-    - Do tests for indexed and non indexed keys
-    - Make Plots for all metrics (matplotlib)
-
-Oracle
-    - Explore how to insert given docs into OracleDB
-    - Which all tools need to be used / language / API
-    - How to construct schema for JSON Data
-    - How to Index attributes
-    - Perform benchmarks for Oracle
-
-Compare Oracle and MongoDB
-'''
-       
 #!/usr/bin/env Python
-import json, random, string, pymongo, copy
+import json, random, string, pymongo, copy, psutil, os
 from pymongo import MongoClient
 from pprint import pprint
 from datetime import datetime
@@ -30,18 +9,29 @@ def init():
     db = client.code
     doc = loadJSON()
 
-    # loadOne(db, doc)    
-    
+    process = psutil.Process(os.getpid())
+    mem_usage, cpu_usage = measureUsage(process)
+    print "Memory Usage is {}".format(mem_usage) + " CPU Usage is {}".format(cpu_usage)
+ 
+    loadOne(db, doc)    
+
     # 1,000,000 documents / 5 = 200,000 documents
-    # for i in range(5):
-    #     bulkInsert(db, doc, i)
-    
-    # createIndex(db)
-    query(db)
+    for i in range(5):
+        bulkInsert(db, doc, i)
 
+    process = psutil.Process(os.getpid())
+    mem_usage, cpu_usage = measureUsage(process)
+    print "Memory Usage is {}".format(mem_usage) + " CPU Usage is {}".format(cpu_usage)
+ 
     # loadMultipleFiles(db, doc)
-
+    # createIndex(db)
+    # query(db)
     # deleteCollection(db)
+
+def measureUsage(process):
+    mem_usage = process.memory_info()[0] / float(2 ** 20) # In MiB aka Mebibyte
+    cpu_usage = psutil.cpu_percent(interval=0.1)
+    return mem_usage, cpu_usage
 
 def randomizeDoc(doc, idx, index, x):
     newdoc = copy.deepcopy(doc)
@@ -83,7 +73,6 @@ def bulkInsert(db, doc, index):
         bulk.insert(newdoc)
 
     result = bulk.execute()
-
     end_time = datetime.now()
     difference = end_time - begin_time
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
@@ -92,7 +81,7 @@ def createIndex(db):
     print db.production.create_index([("steps.performance.storage", pymongo.ASCENDING)])
 
 def loadJSON():
-    with open('main_doc.json') as data_file:
+    with open('../JSON Files/main_doc.json') as data_file:
         doc = json.load(data_file)
     return doc
 
@@ -102,24 +91,23 @@ def loadOne(db, doc):
 
 def loadMultipleFiles(db, doc):
     begin_time = datetime.now()
+    x = 1000000
 
-    for idx in range(1000000):
-        newdoc = randomizeDoc(doc, idx)
+    for idx in range(x):
+        newdoc = randomizeDoc(doc, idx, 1, 0)
         db.production.insert(newdoc)
 
     end_time = datetime.now()
     difference = end_time - begin_time
     
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
-    print("Number of docs", db.production.count())
+    print("Number of docs", db.production.find({}).count())
 
 def deleteCollection(db):
     cursor = db.production.drop()
 
 def query(db):
     
-    # indexes = db.production.index_information()
-    # pprint(indexes)
     # cursor = db.production.find({"wmaid":500}).explain()
     # cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain() # All regex that starts with root:// ....
     # cursor = db.production.find({"$or":[{"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, { "LFNArray": { "$regex" : "^/store/mc/Run121/"} }]}).explain() # All regex that starts with /store/mc/Run ....
@@ -129,10 +117,9 @@ def query(db):
     cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain()
 
     # cursor = db.production.find({})
+
     # for document in cursor:
     #     print document
-
-    pprint(cursor)
 
 if __name__ == "__main__":
     init()

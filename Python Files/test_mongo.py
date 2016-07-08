@@ -5,7 +5,7 @@ import json
 
 # uri = 'mongodb://localhost:8230'
 client = MongoClient()
-doc = json.load(open('fwjr_prod.json'))
+doc = json.load(open('../JSON Files/fwjr_prod.json'))
 
 coll = client['wma']['db']
 coll.drop()
@@ -27,11 +27,3 @@ spec = {'wmaid':1}
 
 for doc in coll.find(spec):
     print(doc)
-
-# Assingment
-# 1. download mongodb - DONE
-# 2. load document to DB - DONE
-# 3. run client and create 10 documents - DONE 
-# 4. load 10 docs in DB - DONE
-# 5. query DB
-# 6. study MongoDB QL - DONE

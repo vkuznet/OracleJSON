@@ -4,7 +4,6 @@
   - [ ] Measure CPU/RAM Usage while inserting 1M docs
     - [ ] Bulk Insert vs Single Insert
     - [ ] while lookup
-    - [ ] with Indexed Keys and without Indexed Keys
   - [ ] MongoDB Queries for measuring time to
     - [ ] Find Records based on provided LFN Pattern
     - [ ] Find Records for provided run number
@@ -14,7 +13,6 @@
   - [ ] Measure CPU/RAM Usage while inserting 1M docs
     - [ ] Bulk Insert vs Single Insert
     - [ ] while lookup
-    - [ ] with Indexed Keys and without Indexed Keys
   - [ ] MongoDB Queries for measuring time to
     - [ ] Find Records based on provided LFN Pattern
     - [ ] Find Records for provided run number

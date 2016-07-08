@@ -18,6 +18,7 @@
     - [ ] Find Records for provided run number
     - [ ] Find Records for provided site
     - [ ] Get sum/mean/max CPU/RAM
+- [ ] Make Plots for all metrics (matplotlib)
 - [x] Setup Oracle DB
 - [ ] Inject 1 JSON
 - [ ] Inject multiple JSON's

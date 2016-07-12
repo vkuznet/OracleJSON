@@ -259,3 +259,9 @@ BEGIN
   INSERT INTO testDocument VALUES(SYS_GUID(), SYSTIMESTAMP, DOC2);
 END;
 
+# To change quota
+ALTER USER sbaveja quota unlimited on testDocument;
+
+# To delete all rows in table
+TRUNCATE table testDocument;
+

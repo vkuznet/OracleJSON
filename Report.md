@@ -43,7 +43,7 @@ Total Time : 11m 57s 151ms
 Time taken for individual inserts = 17m 56s 501ms
 ```
 
-### Need to see how can this time be reduced
+#### - Need to see how can this time be reduced
 
 * Identified errors in the code where the same JSON document was being created and the randomize function wasn't working correctly. 
 * To solve the issue, learnt more about copy and deepcopy function in Python

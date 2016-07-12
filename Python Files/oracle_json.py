@@ -39,7 +39,6 @@ def loadJSON():
 def generateJSON(doc):
     newdoc = copy.deepcopy(doc)
     # del newdoc['_id']
-
     x = 1
     index = 0
 

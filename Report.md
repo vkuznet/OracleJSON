@@ -22,3 +22,13 @@
 ....* Indexed
 ....* Not Indexed
 ..* Indexed vs Non Indexed Queries Tested
+
+## Week 3
+
+* 
+
+## Week 4
+
+* Faced a lot of errors while installing cx_Oracle and finally managed to install it with the help of Kate
+* Steps to install : [Github Gist Document link](https://gist.github.com/sartaj10/03936b3dc5f9d0499f93e06cc12eb52e)
+* 

@@ -9,7 +9,7 @@ def init():
     cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :input)")
 
     begin_time = datetime.now()
-    for i in range(1000):
+    for i in range(500000):
         json_doc = generateJSON(doc, i)
         insert(cursor, json_doc)
         db.commit()

@@ -6,15 +6,21 @@ def init():
     db, cursor = connect()
     doc = loadJSON()
 
-    cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :input)")
-
     begin_time = datetime.now()
-    for i in range(500000):
-        json_doc = generateJSON(doc, i)
-        insert(cursor, json_doc)
+    cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :1)") 
+
+    # When one loop was run for 500k documents at once, an error occurred
+    # array size too large and thus, 2 loops were run
+    for j in range(2):
+        document = []
+        for i in range(250000):
+            json_doc = generateJSON(doc, j, i)
+            row = (json_doc,)
+            document.append(row)
+            # print (str(cursor.rowcount) + " row(s) inserted")
+            print i
+        cursor.executemany(None, document)
         db.commit()
-        # print (str(cursor.rowcount) + " row(s) inserted")
-        print i
 
     end_time = datetime.now()
     difference = end_time - begin_time
@@ -40,11 +46,10 @@ def loadJSON():
         doc = json.load(data_file)
     return doc
 
-def generateJSON(doc, idx):
+def generateJSON(doc, index, idx):
     newdoc = copy.deepcopy(doc)
     # del newdoc['_id']
-    x = 1
-    index = 0
+    x = 250000
 
     rand3 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
     newdoc["wmaid"] = rand3

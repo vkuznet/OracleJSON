@@ -259,3 +259,17 @@ BEGIN
   INSERT INTO testDocument VALUES(SYS_GUID(), SYSTIMESTAMP, DOC2);
 END;
 
+# To change quota
+ALTER USER sbaveja quota unlimited on testDocument;
+
+# To delete all rows in table
+TRUNCATE table testDocument;
+
+# To count number of rows
+SELECT count(id) FROM testDocument;
+
+# To describe the table
+DESCRIBE testDocument;
+
+# To check max size
+SELECT * FROM user_ts_quotas;

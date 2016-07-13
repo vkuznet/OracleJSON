@@ -17,9 +17,10 @@
     - [ ] Get sum/mean/max CPU/RAM
 - [ ] Make Plots for all metrics (matplotlib)
 - [x] Setup Oracle DB
-- [ ] Inject 1 JSON
-- [ ] Inject multiple JSON's
+- [x] Inject 1 JSON
+- [x] Inject multiple JSON's
 - [ ] What tools / language / API's to be used?
 - [ ] How to construct a schema for JSON Data (if required)
 - [ ] How to index attributes
+- [ ] Increase space quota for devdb12 database
 - [ ] Perform Oracle benchmark tests similar to MongoDB

@@ -1,5 +1,9 @@
 ### Tasks To Do
 
+- [ ] Side by Side Comparison between MongoDB and Oracle (Create Tables with numbers)
+  - [ ] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)
+  - [ ] Tasks / Queries 
+  - [ ] Benchmarks
 - [ ] Measure CPU/RAM Usage while inserting 1M docs
   - [ ] Bulk Insert vs Single Insert
   - [ ] while lookup

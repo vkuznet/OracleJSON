@@ -20,7 +20,7 @@
     - [ ] Find Records for provided site
     - [ ] Get sum/mean/max CPU/RAM
 - [ ] Make Plots for all metrics (matplotlib)
-- [ ] How to construct a schema for JSON Data (if required)
+- [x] How to construct a schema for JSON Data (if required) [Not required with Oracle. It can be stored, indexed, and queried without any need for a schema that defines the data.]
 - [ ] How to index attributes
 - [ ] Perform Oracle benchmark tests similar to MongoDB
 - [x] Increase space quota for devdb12 database

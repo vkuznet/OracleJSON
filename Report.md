@@ -62,3 +62,8 @@ Time taken for individual inserts = 17m 56s 501ms
 * Faced a lot of errors while installing cx_Oracle and finally managed to install it with the help of Kate
 * Steps to install : [Github Gist Document link](https://gist.github.com/sartaj10/03936b3dc5f9d0499f93e06cc12eb52e)
 * After installing cx_Oracle, in the process of creating a Python script to load documents into Oracle automatically
+*
+
+## Week 5
+
+*

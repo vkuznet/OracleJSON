@@ -1,26 +1,71 @@
-### Tasks To Do
+## Tasks To Do
 
-- [ ] Measure CPU/RAM Usage while inserting 1M docs
-  - [ ] Bulk Insert vs Single Insert
-  - [ ] while lookup
-- [ ] For Indexed Queries
-  - [ ] MongoDB Queries for measuring time to
-    - [ ] Find Records based on provided LFN Pattern
-    - [ ] Find Records for provided run number
-    - [ ] Find Records for provided site
-    - [ ] Get sum/mean/max CPU/RAM
-- [ ] For Non Indexed Queries
-  - [ ] MongoDB Queries for measuring time to
-    - [ ] Find Records based on provided LFN Pattern
-    - [ ] Find Records for provided run number
-    - [ ] Find Records for provided site
-    - [ ] Get sum/mean/max CPU/RAM
-- [ ] Make Plots for all metrics (matplotlib)
+- [ ] MongoDB
+  - [ ] Measure CPU/RAM Usage while inserting 1M docs
+    - [ ] Bulk Insert vs Single Insert
+    - [ ] While fetching
+  - [ ] For Indexed Queries
+    - [ ] MongoDB Queries for measuring time to
+      - [ ] Find Records based on provided LFN Pattern
+      - [ ] Find Records for provided run number
+      - [ ] Find Records for provided site
+      - [ ] Get sum/mean/max CPU/RAM
+      - [x] Find specific wmaid 
+      - [x] Find specific values from PFNArray via regex
+      - [x] Find specific values from LFNArray via regex
+      - [x] OR Query via regex to find either LFN/PFN value
+      - [x] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+  - [ ] For Non Indexed Queries
+    - [ ] MongoDB Queries for measuring time to
+      - [ ] Find Records based on provided LFN Pattern
+      - [ ] Find Records for provided run number
+      - [ ] Find Records for provided site
+      - [ ] Get sum/mean/max CPU/RAM
+      - [x] Find specific wmaid 
+      - [x] Find specific values from PFNArray via regex
+      - [x] Find specific values from LFNArray via regex
+      - [x] OR Query via regex to find either LFN/PFN value
+      - [x] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+
+- [ ] Oracle
+  - [ ] Measure CPU/RAM Usage while inserting 1M docs
+    - [ ] Bulk Insert vs Single Insert
+    - [ ] while lookup
+  - [ ] For Indexed Queries
+    - [ ] Oracle Queries for measuring time to
+      - [ ] Find Records based on provided LFN Pattern
+      - [ ] Find Records for provided run number
+      - [ ] Find Records for provided site
+      - [ ] Get sum/mean/max CPU/RAM
+      - [ ] Find specific wmaid 
+      - [ ] Find specific values from PFNArray via regex
+      - [ ] Find specific values from LFNArray via regex
+      - [ ] OR Query via regex to find either LFN/PFN value
+      - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+  - [ ] For Non Indexed Queries
+    - [ ] Oracle Queries for measuring time to
+      - [ ] Find Records based on provided LFN Pattern
+      - [ ] Find Records for provided run number
+      - [ ] Find Records for provided site
+      - [ ] Get sum/mean/max CPU/RAM
+      - [ ] Find specific wmaid 
+      - [ ] Find specific values from PFNArray via regex
+      - [ ] Find specific values from LFNArray via regex
+      - [ ] OR Query via regex to find either LFN/PFN value
+      - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+  - [ ] How to index attributes
+
+- [ ] Comparison (Create Tables with numbers)
+  - [ ] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)
+  - [ ] Tasks / Queries 
+  - [ ] Benchmarks
+  - [ ] Make Plots for all metrics (matplotlib)
+
+## Tasks Done
+
+- [x] How to construct a schema for JSON Data (if required) [Not required with Oracle. It can be stored, indexed, and queried without any need for a schema that defines the data.]
+- [x] Increase space quota for devdb12 database
 - [x] Setup Oracle DB
 - [x] Inject 1 JSON
 - [x] Inject multiple JSON's
-- [ ] What tools / language / API's to be used?
-- [ ] How to construct a schema for JSON Data (if required)
-- [ ] How to index attributes
-- [ ] Increase space quota for devdb12 database
-- [ ] Perform Oracle benchmark tests similar to MongoDB
+- [x] What tools / language / API's to be used?

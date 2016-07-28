@@ -8,7 +8,7 @@ import string
 import login
 from pprint import pprint
 from datetime import datetime
-
+    
 def init():
     db, cursor = connect()
     doc = load_json()
@@ -20,19 +20,18 @@ def batch_insert(cursor, doc, db):
     begin_time = datetime.now()
     cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :1)") 
 
-    for j in range(1):
+    for j in range(4):
         document = []
-        for i in range(50):
+        for i in range(250000):
             json_doc = generateJSON(doc, j, i)
             row = (json_doc,)
             document.append(row)
-            # print i
+            print i
+        
         cursor.executemany(None, document)
         db.commit()
 
-    end_time = datetime.now()
-    difference = end_time - begin_time
-    print str(begin_time) + " " + str(end_time) + "\n" + str(difference)
+    print (datetime.now() - begin_time)
 
 def closeConnection(cursor, db):
     print ("Closing Database connection")
@@ -49,43 +48,51 @@ def connect():
     return db, cursor
 
 def generateJSON(doc, index, idx):
-    newdoc = copy.deepcopy(doc)
-    # del newdoc['_id']
     x = 250000
+    
+    newdoc = copy.deepcopy(doc)
+    newdoc['wmaid'] = get_random_string(32)
 
-    rand3 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-    newdoc["wmaid"] = rand3
+    for i in range(len(newdoc['steps'])):
+        storage_key = newdoc['steps'][i]['performance']['storage']
 
-    for i in range(len(newdoc["steps"])):
-        newdoc["steps"][i]["performance"]["storage"]["writeTotalMB"] = round(random.uniform(200, 400), 2)
-        newdoc["steps"][i]["performance"]["storage"]["readPercentageOps"] = random.uniform(1, 2)
-        newdoc["steps"][i]["performance"]["storage"]["readMBSec"] = random.random()
+        storage_key['writeTotalMB'] = round(random.uniform(200,400), 2)
+        storage_key["readPercentageOps"] = random.uniform(1, 2)
+        storage_key["readMBSec"] = random.uniform(0,1)
 
-        length = len(newdoc["steps"][i]["output"])
+        steps_key = newdoc['steps'][i]
+        
+        steps_key['site'] = 'T' + str(random.randint(1,5)) + '_US_FNAL_Disk'
+        output_length = len(steps_key['output'])
 
-        if length > 0:
-            for j in range(length):    
-                rand1 = "".join([random.choice(string.digits) for n in xrange(5)])
-                rand2 = "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        if output_length > 0:
+            for j in range(output_length):    
+                output_key = newdoc['steps'][i]['output'][j]
+                output_key['outputDataset'] = '/Cosmics/Run-' + get_random_string(5)
+                output_key['branch_hash'] = get_random_string(32)
 
-                newdoc["steps"][i]["output"][j]["outputDataset"] = "/Cosmics/Run-" + rand1
-                newdoc["steps"][i]["output"][j]["branch_hash"] = rand2 
+                run_length = len(output_key["runs"])
+                
+                if run_length > 0:
+                    for k in range(run_length):
+                        run_key = newdoc['steps'][i]['output'][j]['runs'][k]
+                        run_key['runNumber'] = random.randint(1,19)
 
-                runs = len(newdoc["steps"][i]["output"][j]["runs"])
-                print runs
+    run_number = str(x*index + idx)
+    LFN_length = len(newdoc['LFNArray'])
+    
+    for i in range(LFN_length):
+        newdoc['LFNArray'][i] = "/store/mc/Run"+ run_number + "/file"+ str(i)+ ".root"
 
-                if runs > 0:
-                    for k in range(runs):
-                        rand3 = random.randint(1,19)
-                        newdoc["steps"][i]["output"][j]["runs"][k]["runNumber"] = rand3
+    PFN_length = len(newdoc['PFNArray'])
 
-    for i in range(len(newdoc["LFNArray"])):
-        newdoc["LFNArray"][i] = "/store/mc/Run"+str(x*index +idx)+"/file"+str(i)+".root"
-
-    for i in range(len(newdoc["PFNArray"])):
-        newdoc["PFNArray"][i] = "root://test.ch/Run"+str(x*index +idx)+"/file"+str(i)+".root"
+    for i in range(PFN_length):
+        newdoc['PFNArray'][i] = "root://test.ch/Run"+ run_number + "/file"+ str(i)+ ".root"
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     return json.dumps(newdoc)
+
+def get_random_string(length):
+    return "".join([random.choice(string.ascii_letters + string.digits) for n in xrange(length)])  
 
 def load_json():
     with open('../JSON Files/main_doc.json') as data_file:
@@ -93,16 +100,16 @@ def load_json():
     return doc
 
 def retrieve(cursor):
-
     begin_time = datetime.now()
+
     cursor.arraysize = 10000;
     cursor.execute("SELECT test.doc.wmaid FROM testDocument test")
+
     result = cursor.fetchall()
 
-    end_time = datetime.now()
-    difference = end_time - begin_time
-    print str(begin_time) + " " + str(end_time) + "\n" + str(difference)
+    print (datetime.now() - begin_time)
     print len(result)
 
 if __name__ == "__main__":
     init()
+    

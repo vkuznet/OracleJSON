@@ -1,5 +1,11 @@
 #!/usr/bin/env Python
-import json, random, string, pymongo, copy, psutil, os
+import json
+import random
+import string
+import pymongo
+import copy
+import psutil
+import os
 from pymongo import MongoClient
 from pprint import pprint
 from datetime import datetime
@@ -54,6 +60,13 @@ def randomizeDoc(doc, idx, index, x):
 
                 newdoc["steps"][i]["output"][j]["outputDataset"] = "/Cosmics/Run-" + rand1
                 newdoc["steps"][i]["output"][j]["branch_hash"] = rand2 
+
+                runs = len(newdoc["steps"][j]["output"]["runs"])
+
+                if runs > 0:
+                    for k in range(runs):
+                        rand3 = random.randint(1,19)
+                        newdoc["steps"][i]["output"][j]["runs"][k]["runNumber"] = rand3
 
     for i in range(len(newdoc["LFNArray"])):
         newdoc["LFNArray"][i] = "/store/mc/Run"+str(x*index +idx)+"/file"+str(i)+".root"

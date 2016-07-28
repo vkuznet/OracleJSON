@@ -1,24 +1,32 @@
-import cx_Oracle, json, random, time, copy, string
+#!/usr/bin/env Python
+import cx_Oracle
+import json
+import random
+import time
+import copy
+import string
+import login
 from pprint import pprint
 from datetime import datetime
 
 def init():
     db, cursor = connect()
-    doc = loadJSON()
+    doc = load_json()
+    batch_insert(cursor, doc, db)
+    # retrieve(cursor)
+    closeConnection(cursor, db)
 
+def batch_insert(cursor, doc, db):
     begin_time = datetime.now()
     cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :1)") 
 
-    # When one loop was run for 500k documents at once, an error occurred
-    # array size too large and thus, 2 loops were run
-    for j in range(2):
+    for j in range(1):
         document = []
-        for i in range(250000):
+        for i in range(50):
             json_doc = generateJSON(doc, j, i)
             row = (json_doc,)
             document.append(row)
-            # print (str(cursor.rowcount) + " row(s) inserted")
-            print i
+            # print i
         cursor.executemany(None, document)
         db.commit()
 
@@ -26,25 +34,19 @@ def init():
     difference = end_time - begin_time
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)
 
-    # retrieve(cursor)
-    closeConnection(cursor, db)
+def closeConnection(cursor, db):
+    print ("Closing Database connection")
+    cursor.close()
+    db.close()
 
 def connect():
-    username, password, dbname = getLoginDetails()
+    username = login.get_credentials()['username']
+    password = login.get_credentials()['password']
+    dbname = login.get_credentials()['dbname']
+
     db = cx_Oracle.connect(username, password, dbname)
     cursor = db.cursor()
     return db, cursor
-
-def getLoginDetails():
-    username = 'sbaveja'
-    password = ''
-    dbname = 'devdb12'
-    return username, password, dbname
-
-def loadJSON():
-    with open('../JSON Files/main_doc.json') as data_file:
-        doc = json.load(data_file)
-    return doc
 
 def generateJSON(doc, index, idx):
     newdoc = copy.deepcopy(doc)
@@ -69,6 +71,14 @@ def generateJSON(doc, index, idx):
                 newdoc["steps"][i]["output"][j]["outputDataset"] = "/Cosmics/Run-" + rand1
                 newdoc["steps"][i]["output"][j]["branch_hash"] = rand2 
 
+                runs = len(newdoc["steps"][i]["output"][j]["runs"])
+                print runs
+
+                if runs > 0:
+                    for k in range(runs):
+                        rand3 = random.randint(1,19)
+                        newdoc["steps"][i]["output"][j]["runs"][k]["runNumber"] = rand3
+
     for i in range(len(newdoc["LFNArray"])):
         newdoc["LFNArray"][i] = "/store/mc/Run"+str(x*index +idx)+"/file"+str(i)+".root"
 
@@ -77,22 +87,22 @@ def generateJSON(doc, index, idx):
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     return json.dumps(newdoc)
 
-def insert(cursor, json_doc):
-    clob_value = cursor.var(cx_Oracle.CLOB)
-    clob_value.setvalue(0, json_doc)
-    cursor.setinputsizes(input = cx_Oracle.CLOB) # Predefine memory 
-    cursor.execute(None, input=clob_value)
+def load_json():
+    with open('../JSON Files/main_doc.json') as data_file:
+        doc = json.load(data_file)
+    return doc
 
 def retrieve(cursor):
+
+    begin_time = datetime.now()
+    cursor.arraysize = 10000;
     cursor.execute("SELECT test.doc.wmaid FROM testDocument test")
     result = cursor.fetchall()
-    for r in result:
-        print r
 
-def closeConnection(cursor, db):
-    print ("Closing Database connection")
-    cursor.close()
-    db.close()
+    end_time = datetime.now()
+    difference = end_time - begin_time
+    print str(begin_time) + " " + str(end_time) + "\n" + str(difference)
+    print len(result)
 
 if __name__ == "__main__":
     init()

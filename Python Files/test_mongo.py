@@ -87,18 +87,29 @@ def measureUsage(process):
 
 def query(db):
     
-    # cursor = db.production.find({"wmaid":500}).explain()
-    # cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain() # All regex that starts with root:// ....
-    # cursor = db.production.find({"$or":[{"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, { "LFNArray": { "$regex" : "^/store/mc/Run121/"} }]}).explain() # All regex that starts with /store/mc/Run ....
-    # cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
-    # cursor = db.production.find({"$or":[{"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, { "LFNArray": { "$regex" : "^/store/mc/Run121/"} }]}).explain("executionStats")
-    
+    cursor = db.production.find({"wmaid":500}).explain()
+
     cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain()
 
-    # cursor = db.production.find({})
+    cursor = db.production.find({"$or":[
+                                            {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, 
+                                            {"LFNArray": { "$regex" : "^/store/mc/Run121/"} }
+                                        ]
+                                }).explain()
 
-    # for document in cursor:
-    #     print document
+    cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
+    cursor = db.production.find({"$or":[
+                                            {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, 
+                                            {"LFNArray": { "$regex" : "^/store/mc/Run121/"} }
+                                        ]
+                                }).explain("executionStats") 
+                                   
+    cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain()
+
+    cursor = db.production.find({})
+
+    for document in cursor:
+        print document
 
 def randomizeDoc(doc, idx, index, x):
     newdoc = copy.deepcopy(doc)

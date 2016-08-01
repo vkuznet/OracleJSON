@@ -176,3 +176,29 @@ select test.doc.LFNArray from testDocument test fetch first 5 rows only;
 select count(*) from test3;
 
 ---------------------------------------
+
+SQL> select count(id) from testDocument;
+
+ COUNT(ID)
+----------
+   1000000
+
+SQL> explain plan for select count(id) from testDocument;
+
+Explained.
+
+SQL> select * from table(dbms_xplan.display);
+
+PLAN_TABLE_OUTPUT
+--------------------------------------------------------------------------------
+Plan hash value: 1659612297
+
+---------------------------------------------------------------------------
+| Id  | Operation    | Name   | Rows  | Cost (%CPU)| Time   |
+---------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      | 1 |  3026   (1)| 00:00:01 |
+|   1 |  SORT AGGREGATE    |      | 1 |        |    |
+|   2 |   TABLE ACCESS FULL| TESTDOCUMENT |   502K|  3026   (1)| 00:00:01 |
+---------------------------------------------------------------------------
+
+9 rows selected.

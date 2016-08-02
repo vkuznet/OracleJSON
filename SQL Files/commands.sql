@@ -1,4 +1,5 @@
 # Find Records Based on provided LFN Pattern
+# unique index
 
 SELECT M.* 
   FROM test3 p, 
@@ -17,6 +18,7 @@ SELECT M.*
 WHERE lfn = '/store/mc/Run512/file0.root';
 
 # Find Records for provided run number
+# index
 
 SELECT M.* 
   FROM test3 p,
@@ -34,6 +36,7 @@ SELECT M.*
   WHERE runNumber = 2;
 
 # Get sum/average/max values
+# index
 
 SELECT SUM(M.totalMB) totalMB_sum,
        MAX(M.totalCP) totalCP_max,
@@ -55,7 +58,7 @@ SELECT SUM(M.totalMB) totalMB_sum,
 
 # Before Indexing
 # Average Time = 00:05:23.49
-SELECT test.doc.wmaid FROM testDocument test WHERE test.doc.wmaid = 'SC4RaGTH2zqqX8sTR5ovQrkiD5cYvBFl';
+SELECT test.doc.wmaid FROM testDocument test WHERE test.doc.wmaid = '1dfINibjn081IqGeRpfIrTF7Jvx2RDqx';
 
 # Create Index
 CREATE INDEX index_wmaid ON testDocument test (test.doc.wmaid);
@@ -81,7 +84,7 @@ select t.doc.LFNArray , t.doc.PFNArray
     where json_exists(
                       t.doc, 
                       '$?(@.PFNArray starts with $str)' 
-                      passing 'root://test.ch/Run1' as "str"
+                      passing 'root://test.ch/Run452' as "str"
                       );
 
 # Starts with Operator / LFN Array Regex
@@ -91,7 +94,7 @@ select t.doc.PFNArray
     where json_exists(
                       t.doc, 
                       '$?(@.LFNArray starts with $str)' 
-                      passing '/store/mc/Run1' as "str"
+                      passing '/store/mc/Run214432' as "str"
                       );
 
 # Starts with Operator OR

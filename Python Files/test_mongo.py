@@ -97,13 +97,13 @@ def query(db):
                                         ]
                                 }).explain()
 
-    cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) # All regex that starts with /store/mc/Run ....
+    cursor = db.production.find({'steps.output.inputDataset':{'$regex':r'^/Cosmics/Run-'}}) 
     cursor = db.production.find({"$or":[
                                             {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, 
                                             {"LFNArray": { "$regex" : "^/store/mc/Run121/"} }
                                         ]
                                 }).explain("executionStats") 
-                                   
+
     cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain()
 
     cursor = db.production.find({})

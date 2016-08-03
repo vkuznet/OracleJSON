@@ -87,18 +87,26 @@ Time taken for individual inserts = 17m 56s 501ms
 
 * **Conclusion** : No such error was observed in 12.2 and along with that, simplified notation worked properly with arrays
 
-#### Count ID select
-![Alt text](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/countID.png "count id")
-
 #### WMAID Execution Plan
 ![Alt text](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wmaid_explainPlan.png "wmaid execution plan")
 
 ## Week 7 (1st August to 7th August)
 
+* Executed the non indexed queries on SQLDeveloper / SQLPlus
 
+![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/greaterThan_time.png)
+
+* Stored the results in an excel file
+
+* Created indexes on certain fields and executed the queries again
+
+![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wmaid_createIndex.png)
+
+![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wmaid_indexedTime.png)
+
+* *
 
 ## Week 8 (8th August to 14th August)
-
 
 
 ## Week 9 (15th August to 19th August)

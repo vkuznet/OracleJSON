@@ -1,24 +1,26 @@
-# Find Records Based on provided LFN Pattern
-# unique index
+## Query : Find Records Based on provided LFN Pattern
 
 SELECT M.* 
-  FROM test3 p, 
-       json_table( 
-        p.doc, 
-        '$' 
-        columns ( 
-          wmaid varchar2(2000 char) path '$.wmaid',  
+  FROM test3 p,
+       json_table(
+        p.doc,
+        '$'
+        columns (
+          wmaid varchar2(2000 char) path '$.wmaid',
           meta_data varchar2(2000 char) format json with wrapper path '$.meta_data', 
-          nested path '$.LFNArray[*]' 
-          columns (  
-            lfn varchar2(2000 char) path '$' 
+          nested path '$.LFNArray[*]'
+          columns ( 
+            lfn varchar2(2000 char) path '$'
           )
-        ) 
-      ) M 
-WHERE lfn = '/store/mc/Run512/file0.root';
+        )
+      ) M
+WHERE lfn = '/store/mc/Run5/file0.root';
 
-# Find Records for provided run number
-# index
+Explain Plan - 
+
+Execution Time - 
+
+## Query : Find Records for provided run number
 
 SELECT M.* 
   FROM test3 p,
@@ -35,8 +37,11 @@ SELECT M.*
       ) M
   WHERE runNumber = 2;
 
-# Get sum/average/max values
-# index
+Explain Plan - 
+
+Execution Time - 
+ 
+## Get sum/average/max values
 
 SELECT SUM(M.totalMB) totalMB_sum,
        MAX(M.totalCP) totalCP_max,
@@ -54,66 +59,83 @@ SELECT SUM(M.totalMB) totalMB_sum,
         )
       ) M;
 
-# Find Specific wmaid
+Explain Plan - 
 
-# Before Indexing
-# Average Time = 00:05:23.49
-SELECT test.doc.wmaid FROM testDocument test WHERE test.doc.wmaid = '1dfINibjn081IqGeRpfIrTF7Jvx2RDqx';
+Execution Time - 
 
-# Create Index
-CREATE INDEX index_wmaid ON testDocument test (test.doc.wmaid);
+## Find Specific wmaid
 
-# After Indexing
-# Average Time = 00:00:00.03
-SELECT test.doc.wmaid FROM testDocument test WHERE test.doc.wmaid = 'dz7mmMt2BxLMxnq4WzqhH6gJ3yII0EwS';
+SELECT test.doc.wmaid FROM testDocument test where test.doc.wmaid = 'kBYyPWEYxev7kuv23frTlG2eqvELodfI';
 
-# Greater Than Operator
+Explain Plan - 
 
-select t.doc.steps.performance 
-  from test3 t 
-    where json_exists(
+Execution Time - 
+
+## Greater Than Operator
+
+SELECT t.doc.steps.performance 
+  FROM test3 t 
+    WHERE json_exists(
                       t.doc, 
                       '$.steps.performance.storage[*]?(@.writeTotalMB > $v)' 
                       passing 390 as "v"
                       );
 
-# Starts with Operator / PFN Array Regex
+Explain Plan - 
 
-select t.doc.LFNArray , t.doc.PFNArray
-  from test3 t 
-    where json_exists(
+Execution Time - 
+
+## Starts with Operator / PFN Array Regex
+
+SELECT t.doc.LFNArray , t.doc.PFNArray
+  FROM test3 t 
+    WHERE json_exists(
                       t.doc, 
                       '$?(@.PFNArray starts with $str)' 
-                      passing 'root://test.ch/Run452' as "str"
+                      passing 'root://test.ch/Run1' as "str"
                       );
 
-# Starts with Operator / LFN Array Regex
+Explain Plan - 
 
-select t.doc.PFNArray 
-  from test3 t 
-    where json_exists(
+Execution Time - 
+
+## Starts with Operator / LFN Array Regex
+
+SELECT t.doc.PFNArray 
+  FROM test3 t 
+    WHERE json_exists(
                       t.doc, 
                       '$?(@.LFNArray starts with $str)' 
-                      passing '/store/mc/Run214432' as "str"
+                      passing '/store/mc/Run1' as "str"
                       );
 
-# Starts with Operator OR
+Explain Plan - 
 
-select t.doc.LFNArray, t.doc.PFNArray 
-  from test3 t 
-    where json_exists(
+Execution Time - 
+
+## Starts with Operator OR
+
+SELECT t.doc.LFNArray, t.doc.PFNArray 
+  FROM test3 t 
+    WHERE json_exists(
                       t.doc, 
                       '$?(@.LFNArray starts with "/store/mc/Run1" || 
                       	  @.PFNArray starts with "root://test.ch/Run4")' 
                       );
 
+Explain Plan - 
 
-# Find Records based on provided conditions (<= / >=)
+Execution Time - 
 
-select test.doc.steps.performance.storage.writeTotalMB 
-  from test3 test 
-    where json_exists(test.doc, 
+## Find Records based on provided conditions (<= / >=)
+
+SELECT test.doc.steps.performance.storage.writeTotalMB 
+  FROM test3 test 
+    WHERE json_exists(test.doc, 
                       '$.steps.performance.storage?(@.writeTotalMB > 390 
                       								&& @.writeTotalMB < 400)' 
     				 );
 
+Explain Plan - 
+
+Execution Time - 

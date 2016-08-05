@@ -12,5 +12,5 @@ Time taken for bulk insert : 14m 41s 544ms
 
 Time taken for row by row insert : 
 
-Time taken for bulk insert : 32m 9s 863ms / 1h 08m 20s
+Time taken for bulk insert : 43m 20s 426ms
 

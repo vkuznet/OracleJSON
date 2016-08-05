@@ -13,30 +13,21 @@ from datetime import datetime
 def init():
     client = MongoClient()
     db = client.code
-    doc = loadJSON()
+    doc = loadJSON() 
+    # loadOne(db, doc)    
 
-    process = psutil.Process(os.getpid())
-    mem_usage, cpu_usage = measureUsage(process)
-    print "Memory Usage is {}".format(mem_usage) + " CPU Usage is {}".format(cpu_usage)
- 
-    loadOne(db, doc)    
+    # # 1,000,000 documents / 5 = 200,000 documents
+    # for i in range(4):
+    #     bulkInsert(db, doc, i)
 
-    # 1,000,000 documents / 5 = 200,000 documents
-    for i in range(5):
-        bulkInsert(db, doc, i)
-
-    process = psutil.Process(os.getpid())
-    mem_usage, cpu_usage = measureUsage(process)
-    print "Memory Usage is {}".format(mem_usage) + " CPU Usage is {}".format(cpu_usage)
- 
     # loadMultipleFiles(db, doc)
     # createIndex(db)
-    # query(db)
+    query(db)
     # deleteCollection(db)
 
 def bulkInsert(db, doc, index):
     bulk = db.production.initialize_ordered_bulk_op()
-    x = 200000
+    x = 250000
     begin_time = datetime.now()
     
     for idx in range(x):
@@ -108,8 +99,24 @@ def query(db):
 
     cursor = db.production.find({})
 
+    cursor = db.production.find({},{'steps.performance.cp.AvgEventTime':1});
+
+    cursor = db.production.aggregate([
+                    { "$unwind" : "$steps"},
+                    { "$group" : { "_id": None, 
+                                   "sum_totalMB": { "$sum" : "$steps.performance.storage.writeTotalMB"},
+                                   "max_cp": { "$max" : "$steps.performance.cp.TotalJobCP" },
+                                   "avg_eventTime": { "$avg" : "$steps.performance.cp.AvgEventTime"},
+                                   "max_valueRss" : { "$max" : "$steps.performance.memory.PeakValueRss"} 
+                                 } 
+                    }
+                ],
+                {
+                    explain : True
+                });
+
     for document in cursor:
-        print document
+        print(document)
 
 def randomizeDoc(doc, idx, index, x):
     newdoc = copy.deepcopy(doc)

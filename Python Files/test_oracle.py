@@ -18,7 +18,7 @@ def init():
 
 def batch_insert(cursor, doc, db):
     begin_time = datetime.now()
-    cursor.prepare("INSERT INTO testDocument VALUES (SYS_GUID(), SYSTIMESTAMP, :1)") 
+    cursor.prepare("INSERT INTO test11 VALUES (:1)") 
 
     for j in range(4):
         document = []

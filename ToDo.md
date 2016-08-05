@@ -4,23 +4,23 @@
   - [ ] Measure CPU/RAM Usage while inserting 1M docs
     - [ ] Bulk Insert vs Single Insert
     - [ ] While fetching
-  - [ ] For Indexed Queries
-    - [ ] MongoDB Queries for measuring time to
-      - [ ] Find Records based on provided LFN Pattern
-      - [ ] Find Records for provided run number
-      - [ ] Find Records for provided site
-      - [ ] Get sum/mean/max CPU/RAM
+  - [x] For Indexed Queries
+    - [x] MongoDB Queries for measuring time to
+      - [x] Find Records based on provided LFN Pattern
+      - [x] Find Records for provided run number
+      - [x] Find Records for provided site
+      - [x] Get sum/mean/max CPU/RAM
       - [x] Find specific wmaid 
       - [x] Find specific values from PFNArray via regex
       - [x] Find specific values from LFNArray via regex
       - [x] OR Query via regex to find either LFN/PFN value
       - [x] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
-  - [ ] For Non Indexed Queries
-    - [ ] MongoDB Queries for measuring time to
-      - [ ] Find Records based on provided LFN Pattern
-      - [ ] Find Records for provided run number
-      - [ ] Find Records for provided site
-      - [ ] Get sum/mean/max CPU/RAM
+  - [x] For Non Indexed Queries
+    - [x] MongoDB Queries for measuring time to
+      - [x] Find Records based on provided LFN Pattern
+      - [x] Find Records for provided run number
+      - [x] Find Records for provided site
+      - [x] Get sum/mean/max CPU/RAM
       - [x] Find specific wmaid 
       - [x] Find specific values from PFNArray via regex
       - [x] Find specific values from LFNArray via regex

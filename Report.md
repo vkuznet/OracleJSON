@@ -53,7 +53,6 @@ Time taken for individual inserts = 17m 56s 501ms
 * Identified errors in the code where the same JSON document was being created and the randomize function wasn't working correctly. 
 * To solve the issue, learnt more about copy and deepcopy function in Python
 * Added a To Do list and 2nd Week report
-
 * Read more about psutil() library in Python to measure CPU/RAM Usage but I need to still work upon that by creating another script that will accept PID of the process it needs to monitor.
 
 * Setup Oracle SQL Developer Tools
@@ -62,16 +61,24 @@ Time taken for individual inserts = 17m 56s 501ms
 * Had issues with getting the tnsnames.ora file. Solved it by securely copying it from lxplus to a local folder. 
 * Had issues with inserting a JSON as a string more than 4000 characters. Had to create a PL/SQL Procedure and declare a variable as CLOB and update that variable
 
-## Week 4 (11th July to 17th July)
+## Week 4 (11th July to 17th July) -> Trip to Zurich (2 days, 14-15 July) 
 
 * Faced a lot of errors while installing cx_Oracle and finally managed to install it with the help of Kate
 * Steps to install : [Github Gist Document link](https://gist.github.com/sartaj10/03936b3dc5f9d0499f93e06cc12eb52e)
 * After installing cx_Oracle, in the process of creating a Python script to load documents into Oracle automatically
 * *
 
-## Week 5 (18th July to 24th July)
+## Week 5 (18th July to 24th July) -> Trip to Lausanne (1 day, 22nd July)
 
-* *
+* Read the Documentation for more information about JSON related functions introduced by Oracle namely 
+  * json_value
+  * json_query
+  * json_table
+  * json_exists
+  * is json
+  * is not json
+
+* Experimented around with json_table function to gather specific set of data from the database
 
 ## Week 6 (25th July to 31st July)
 
@@ -104,7 +111,10 @@ Time taken for individual inserts = 17m 56s 501ms
 
 ![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wmaid_indexedTime.png)
 
-* *
+* Ran into a few issues when I observed the execution plans for the queries and saw that indexes weren't being used rather, it was still accessing the entire table to fetch the results
+
+![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wrong_indexing.png)
+
 
 ## Week 8 (8th August to 14th August)
 

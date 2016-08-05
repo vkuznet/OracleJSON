@@ -54,6 +54,7 @@
       - [ ] Find specific values from LFNArray via regex
       - [ ] OR Query via regex to find either LFN/PFN value
       - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+  - [ ] Run same tests in 12.2
 
 - [ ] Comparison (Create Tables with numbers)
   - [ ] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)

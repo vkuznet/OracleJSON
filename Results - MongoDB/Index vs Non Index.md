@@ -12,6 +12,8 @@
 | db.production.find({'steps.site':'T2_US_FNAL_Disk'}).explain("executionStats")  | N | 15527 | 487629 | 1000001 | 0 |
 | db.production.aggregate([{ "$unwind" : "$steps"}, { "$group" : { "_id": None, "sum_totalMB": { "$sum" : "$steps.performance.storage.writeTotalMB"}, "max_cp": { "$max" : "$steps.performance.cp.TotalJobCP" }, "avg_eventTime": { "$avg" : "$steps.performance.cp.AvgEventTime"}, "max_valueRss" : { "$max" : "$steps.performance.memory.PeakValueRss"} } } ], { explain : True }); | Y | 83697 |  |  |  |
 | db.production.aggregate([{ "$unwind" : "$steps"}, { "$group" : { "_id": None, "sum_totalMB": { "$sum" : "$steps.performance.storage.writeTotalMB"}, "max_cp": { "$max" : "$steps.performance.cp.TotalJobCP" }, "avg_eventTime": { "$avg" : "$steps.performance.cp.AvgEventTime"}, "max_valueRss" : { "$max" : "$steps.performance.memory.PeakValueRss"} } } ], { explain : True }); | N | 79532 |  |  |  |
+| db.production.find({'wmaid':'FjXHNvwzC8T8GiwZD3uxmXw7uZSSAKRB'}).explain("executionStats")  | Y | 18 | 1 | 1 | 1 |
+| db.production.find({'wmaid':'FjXHNvwzC8T8GiwZD3uxmXw7uZSSAKRB'}).explain("executionStats")  | N | 19813 | 1 | 1000001 | 0 |
 | db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain("executionStats")  | Y | 6587 | 1 | 1000000 | 3000000 |
 | db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}}).explain("executionStats")  | N | 24067 | 1  | 1000001  | 0 |
 | db.production.find({"LFNArray":{"$regex":"^/store/mc/Run727/"}}).explain() | Y | 6 | 1 | 1 | 5 |

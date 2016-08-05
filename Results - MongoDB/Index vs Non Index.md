@@ -21,4 +21,4 @@
 | db.production.find(<br> { "$or": <br>&nbsp;&nbsp;&nbsp;&nbsp; [ {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { "LFNArray": { "$regex" : "^/store/mc/Run121/"} } ] <br> }).explain("executionStats")  | Y | 16511 | 2 | 1000002 | 3000005 |
 | db.production.find(<br> { "$or": <br>&nbsp;&nbsp;&nbsp;&nbsp; [ {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { "LFNArray": { "$regex" : "^/store/mc/Run121/"} } ] <br> }).explain("executionStats")  | N | 11702 | 2 | 1000001  | 0 |
 | db.production.find(<br> {"steps.performance.storage.writeTotalMB": <br>&nbsp;&nbsp;&nbsp;&nbsp; {"$gte":200,"$lte":250} <br> }).explain("executionStats") | Y | 34204 | 578293 | 1000000 | 2999860 |
-| db.production.find({"steps.performance.storage.writeTotalMB": {"$gte":200,"$lte":250}}).explain("executionStats") | N | 12083 | 578293  | 1000001  | 0  |
+| db.production.find(<br> {"steps.performance.storage.writeTotalMB": <br>&nbsp;&nbsp;&nbsp;&nbsp; {"$gte":200,"$lte":250} <br> }).explain("executionStats") | N | 12083 | 578293  | 1000001  | 0  |

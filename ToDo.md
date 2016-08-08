@@ -4,7 +4,7 @@
   - [ ] Measure CPU/RAM Usage while inserting 1M docs
     - [ ] Bulk Insert vs Single Insert
     - [ ] While fetching
-  - [x] For Indexed Queries
+  - [x] For Non Indexed Queries
     - [x] MongoDB Queries for measuring time to
       - [x] Find Records based on provided LFN Pattern
       - [x] Find Records for provided run number
@@ -15,7 +15,7 @@
       - [x] Find specific values from LFNArray via regex
       - [x] OR Query via regex to find either LFN/PFN value
       - [x] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
-  - [x] For Non Indexed Queries
+  - [x] For Indexed Queries
     - [x] MongoDB Queries for measuring time to
       - [x] Find Records based on provided LFN Pattern
       - [x] Find Records for provided run number
@@ -31,17 +31,6 @@
   - [ ] Measure CPU/RAM Usage while inserting 1M docs
     - [ ] Bulk Insert vs Single Insert
     - [ ] while lookup
-  - [ ] For Indexed Queries
-    - [ ] Oracle Queries for measuring time to
-      - [ ] Find Records based on provided LFN Pattern
-      - [ ] Find Records for provided run number
-      - [ ] Find Records for provided site
-      - [ ] Get sum/mean/max CPU/RAM
-      - [ ] Find specific wmaid 
-      - [ ] Find specific values from PFNArray via regex
-      - [ ] Find specific values from LFNArray via regex
-      - [ ] OR Query via regex to find either LFN/PFN value
-      - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
   - [x] For Non Indexed Queries
     - [x] Oracle Queries for measuring time to
       - [x] Find Records based on provided LFN Pattern
@@ -54,6 +43,18 @@
       - [x] OR Query via regex to find either LFN/PFN value
       - [x] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
   - [ ] How to index attributes
+  - [ ] For Indexed Queries
+    - [ ] Oracle Queries for measuring time to
+      - [ ] Find Records based on provided LFN Pattern
+      - [ ] Find Records for provided run number
+      - [ ] Find Records for provided site
+      - [ ] Get sum/mean/max CPU/RAM
+      - [ ] Find specific wmaid 
+      - [ ] Find specific values from PFNArray via regex
+      - [ ] Find specific values from LFNArray via regex
+      - [ ] OR Query via regex to find either LFN/PFN value
+      - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
+  - [ ] Run same tests in 12.2
 
 - [ ] Comparison (Create Tables with numbers)
   - [ ] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)

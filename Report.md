@@ -113,8 +113,35 @@ Time taken for individual inserts = 17m 56s 501ms
 
 * Ran into a few issues when I observed the execution plans for the queries and saw that indexes weren't being used rather, it was still accessing the entire table to fetch the results
 
-![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wrong_indexing.png)
+![](https://github.com/sartaj10/OracleJSON/blob/master/Screenshots/wrong_indexing.png)   
 
+* To solve this, I read about using hints in Oracle which tells the optimizer what to do. 
+
+```
+SELECT /*+ index(test11 index_lfn) */ M.* 
+  FROM test11 p, 
+       json_table( 
+        p.doc, 
+        '$' 
+        columns ( 
+          nested path '$.LFNArray[*]' 
+          columns (  
+            lfn varchar2(2000 char) path '$' 
+          )
+        ) 
+      ) M 
+WHERE lfn = '/store/mc/Run323/file0.root';
+```
+
+* But this did not work as well. Next, I took a look at the 10053 trace and observed that the Oracle Optimizer calculated that the cost of doing a full table scan would be 1/3rd of the cost of doing an index scan. Therefore, it doesn't use the index even though it sees the hint
+
+```
+alter session set events '10053 trace name context forever, level 1';
+
+SELECT VALUE FROM V$DIAG_INFO WHERE NAME = 'Default Trace File';
+```
+
+* I still need to see whether I can force the optimizer to use the index or not. It does a index scan if the number of rows aren't that large (tested it where rows = 50)
 
 ## Week 8 (8th August to 14th August)
 

@@ -1,9 +1,9 @@
 ## Tasks To Do
 
-- [ ] MongoDB
-  - [ ] Measure CPU/RAM Usage while inserting 1M docs
-    - [ ] Bulk Insert vs Single Insert
-    - [ ] While fetching
+- [x] MongoDB
+  - [x] Measure CPU/RAM Usage while inserting 1M docs
+    - [x] Bulk Insert vs Single Insert
+    - [x] While fetching
   - [x] For Non Indexed Queries
     - [x] MongoDB Queries for measuring time to
       - [x] Find Records based on provided LFN Pattern
@@ -54,13 +54,13 @@
       - [ ] Find specific values from LFNArray via regex
       - [ ] OR Query via regex to find either LFN/PFN value
       - [ ] Find Records based on provided conditions (less than / greater than) for writeTotalMB 
-  - [ ] Run same tests in 12.2
+  - [x] Run same tests in 12.2
 
-- [ ] Comparison (Create Tables with numbers)
-  - [ ] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)
-  - [ ] Tasks / Queries 
-  - [ ] Benchmarks
-  - [ ] Make Plots for all metrics (matplotlib)
+- [x] Comparison (Create Tables with numbers)
+  - [x] Features (Add comments for one or another DB what it can/can't do. Add references to code examples in such a case)
+  - [x] Tasks / Queries 
+  - [x] Benchmarks
+  - [x] Make Plots for all metrics (matplotlib)
 
 ## Tasks Done
 

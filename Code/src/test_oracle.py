@@ -10,15 +10,17 @@ from pprint import pprint
 from datetime import datetime 
     
 def init():
+    # Change database username, password and dbname from login.py to connect
     db, cursor = connect()
+
     doc = load_json()
     batch_insert(cursor, doc, db)
-    # retrieve(cursor)
+    retrieve(cursor)
     closeConnection(cursor, db)
 
 def batch_insert(cursor, doc, db):
     begin_time = datetime.now()
-    cursor.prepare("INSERT INTO new_table VALUES (:1)") 
+    cursor.prepare("INSERT INTO test11 VALUES (:1)") 
 
     for j in range(4):
         document = []
@@ -48,7 +50,6 @@ def connect():
     return db, cursor
 
 def generateJSON(doc, index, idx):
-    x = 250000
     
     newdoc = copy.deepcopy(doc)
     newdoc['wmaid'] = get_random_string(32)
@@ -78,7 +79,7 @@ def generateJSON(doc, index, idx):
                         run_key = newdoc['steps'][i]['output'][j]['runs'][k]
                         run_key['runNumber'] = random.randint(1,19)
 
-    run_number = str(x*index + idx)
+    run_number = str(250000*index + idx)
     LFN_length = len(newdoc['LFNArray'])
     
     for i in range(LFN_length):
@@ -100,15 +101,12 @@ def load_json():
     return doc
 
 def retrieve(cursor):
-    begin_time = datetime.now()
-
     cursor.arraysize = 10000;
-    cursor.execute("SELECT count(*) FROM test6")
+    cursor.execute("SELECT count(*) FROM test11")
 
     result = cursor.fetchall()
-
-    print (datetime.now() - begin_time)
-    print len(result)
+    for r in result:
+        print r
 
 if __name__ == "__main__":
     init()

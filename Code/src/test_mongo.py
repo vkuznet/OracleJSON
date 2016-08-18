@@ -17,28 +17,35 @@ def init():
     client = MongoClient()
     db = client.code
     doc = loadJSON() 
-    loadOne(db, doc)    
 
-    # 
-    for i in range(4):
-        bulkInsert(db, doc, i)
+    # To insert documents in Bulk in parts of 4
+        # loadOne(db, doc)    
+        # for i in range(4):
+        #     bulkInsert(db, doc, i)
 
-    # loadMultipleFiles(db, doc)
+    # To insert documents row-by-row
+        # loadOne(db, doc)
+        # loadMultipleFiles(db, doc)
 
     # createIndex(db)
-    # query(db)
+    
+    # Query the database
+    query(db)
+
+    # To delete the entire collection
     # deleteCollection(db)
 
 def bulkInsert(db, doc, index):
     bulk = db.production.initialize_ordered_bulk_op()
-    x = 250000
+
     begin_time = datetime.now()
     
-    for idx in range(x):
-        newdoc = randomizeDoc(doc, idx, index, x)
+    for idx in range(250000):
+        newdoc = randomizeDoc(doc, idx, index)
         bulk.insert(newdoc)
 
     result = bulk.execute()
+
     end_time = datetime.now()
     difference = end_time - begin_time
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
@@ -66,22 +73,24 @@ def loadMultipleFiles(db, doc):
     x = 1000000
 
     for idx in range(x):
-        newdoc = randomizeDoc(doc, idx, 1, 0)
+        newdoc = randomizeDoc(doc, idx, 0)
         db.production.insert(newdoc)
 
     end_time = datetime.now()
     difference = end_time - begin_time
     
     print str(begin_time) + " " + str(end_time) + "\n" + str(difference)    
-    print("Number of docs", db.production.find({}).count())
 
 def query(db):
     cursor = db.production.find({'PFNArray':'root://test.ch/Run123/file0.root'})
     time.sleep(360)
+
     cursor = db.production.find({'steps.output.runs.runNumber':2})
     time.sleep(360)
+
     cursor = db.production.find({'steps.site':'T2_US_FNAL_Disk'})
     time.sleep(360)
+
     cursor = db.production.aggregate([
                     { "$unwind" : "$steps"},
                     { "$group" : { "_id": None, 
@@ -93,22 +102,28 @@ def query(db):
                     }
                 ])
     time.sleep(360)
+
     cursor = db.production.find({'wmaid':'88JEntUcP6G5rbCGudEO7rakfWjfg5rg'})
     time.sleep(360)
+
     cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}})
     time.sleep(360)
+
     cursor = db.production.find({'LFNArray':{'$regex':'^/store/mc/Run727/'}})
     time.sleep(360)
+
     cursor = db.production.find({"$or":[
                                             {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, 
                                             {"LFNArray": { "$regex" : "^/store/mc/Run121/"} }
                                         ]
                                 })
     time.sleep(360)
+
     cursor = db.production.find({'steps.performance.storage.writeTotalMB':{'$gte': 200, '$lte': 250}})
     time.sleep(360)
-    
-def randomizeDoc(doc, idx, index, x):
+
+# Using main_doc.json and randomizing various fields of the JSON document 
+def randomizeDoc(doc, idx, index):
     newdoc = copy.deepcopy(doc)
     del newdoc['_id']
 
@@ -139,7 +154,9 @@ def randomizeDoc(doc, idx, index, x):
                         run_key = newdoc['steps'][i]['output'][j]['runs'][k]
                         run_key['runNumber'] = random.randint(1,19)
 
-    run_number = str(x*index + idx)
+    # Ranging from [0-250000], [250001-500000] etc
+    run_number = str(250000*index + idx)
+
     LFN_length = len(newdoc['LFNArray'])
     
     for i in range(LFN_length):

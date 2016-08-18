@@ -145,6 +145,18 @@ SELECT VALUE FROM V$DIAG_INFO WHERE NAME = 'Default Trace File';
 
 ## Week 8 (8th August to 14th August)
 
+* Wrote draw_charts.py and gather_data.py scripts to capture CPU Usage in MongoDB
+* Tried generating overlapping data with LFN Array and check if Indexes are used or not
+* Tried to find a threshold on the number of rows where the Oracle Optimizer switches from Full Table Scan to Index Scan. But, found out that there are many other factors that the optimizer uses before making the decision to use an index or not
+* Started working on the Lightning Talk Slides 
 
 ## Week 9 (15th August to 19th August)
 
+* Completed the presentation for the Openlab Summer Students Lightning Talk on 15th August
+* Worked on the final group presentation to be conducted on Friday, 19th August
+* Prepared the first draft of the Openlab Report to be submitted to Kate
+* Code documented and modified
+* Unnecessary Files removed and files organized into appropriate folders
+* Graphs re-arranged into a PDF File
+* CPU Usage Graph for MongoDB generated via psutil
+* Index Sizes for strings, numeric fields calculated and compared

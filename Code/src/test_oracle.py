@@ -15,6 +15,7 @@ def init():
 
     doc = load_json()
     batch_insert(cursor, doc, db)
+    
     retrieve(cursor)
     closeConnection(cursor, db)
 

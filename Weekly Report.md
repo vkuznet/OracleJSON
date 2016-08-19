@@ -160,3 +160,6 @@ SELECT VALUE FROM V$DIAG_INFO WHERE NAME = 'Default Trace File';
 * Graphs re-arranged into a PDF File
 * CPU Usage Graph for MongoDB generated via psutil
 * Index Sizes for strings, numeric fields calculated and compared
+* Compared index vs non index queries for a smaller table size (50 rows) in Oracle
+* Finished final openlab report
+* Graph plotted for 1 hour CPU Usage in Oracle

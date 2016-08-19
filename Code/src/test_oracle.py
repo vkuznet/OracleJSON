@@ -12,11 +12,9 @@ from datetime import datetime
 def init():
     # Change database username, password and dbname from login.py to connect
     db, cursor = connect()
-
     doc = load_json()
-    batch_insert(cursor, doc, db)
-    
-    retrieve(cursor)
+    batch_insert(cursor, doc, db)    
+    # retrieve(cursor)
     closeConnection(cursor, db)
 
 def batch_insert(cursor, doc, db):

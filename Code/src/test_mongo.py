@@ -83,14 +83,11 @@ def loadMultipleFiles(db, doc):
 
 def query(db):
     cursor = db.production.find({'PFNArray':'root://test.ch/Run123/file0.root'})
-    time.sleep(360)
-
+    
     cursor = db.production.find({'steps.output.runs.runNumber':2})
-    time.sleep(360)
-
+    
     cursor = db.production.find({'steps.site':'T2_US_FNAL_Disk'})
-    time.sleep(360)
-
+    
     cursor = db.production.aggregate([
                     { "$unwind" : "$steps"},
                     { "$group" : { "_id": None, 
@@ -101,26 +98,23 @@ def query(db):
                                  } 
                     }
                 ])
-    time.sleep(360)
-
+    
     cursor = db.production.find({'wmaid':'88JEntUcP6G5rbCGudEO7rakfWjfg5rg'})
-    time.sleep(360)
-
-    cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214/'}})
-    time.sleep(360)
-
-    cursor = db.production.find({'LFNArray':{'$regex':'^/store/mc/Run727/'}})
-    time.sleep(360)
-
+    
+    cursor = db.production.find({'PFNArray':{'$regex':'^root://test.ch/Run214'}})
+    
+    cursor = db.production.find({'LFNArray':{'$regex':'^/store/mc/Run727'}})
+    
     cursor = db.production.find({"$or":[
                                             {"PFNArray": { "$regex" : "^root://test.ch/Run430/"} }, 
                                             {"LFNArray": { "$regex" : "^/store/mc/Run121/"} }
                                         ]
                                 })
-    time.sleep(360)
-
+    
     cursor = db.production.find({'steps.performance.storage.writeTotalMB':{'$gte': 200, '$lte': 250}})
-    time.sleep(360)
+    
+    for d in cursor:
+        print d
 
 # Using main_doc.json and randomizing various fields of the JSON document 
 def randomizeDoc(doc, idx, index):
